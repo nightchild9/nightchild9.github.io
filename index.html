@@ -16,6 +16,7 @@
       --accent: #e05575;
       --accent2: #f0a500;
       --green: #2ecc71;
+      --blue: #4aa8ff;
       --muted: rgba(255,255,255,0.55);
       --forbidden-bg: rgba(220,100,60,0.18);
       --forbidden-border: rgba(220,100,60,0.45);
@@ -40,19 +41,24 @@
     .topbar {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 8px 0 12px;
+      align-items: flex-end;
+      padding: 8px 0 10px;
     }
-    .clock {
-      font-size: 36px;
-      font-weight: 200;
-      letter-spacing: 2px;
+    .clock-wrap { display:flex; align-items:baseline; gap:6px; }
+    .clock { font-size: 36px; font-weight: 200; letter-spacing: 2px; }
+    .clock-ampm {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent2);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
     }
-    .topbar-right { font-size: 13px; color: var(--muted); }
+    .topbar-right { font-size: 12px; color: var(--muted); text-align:right; }
+    .topbar-right .badge { margin-top: 4px; }
 
     /* ── TITLE ── */
-    .app-title { font-size: 26px; font-weight: 700; margin-bottom: 4px; }
-    .app-sub { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+    .app-title { font-size: 22px; font-weight: 700; margin-bottom: 2px; }
+    .app-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
 
     /* ── DATE ROW ── */
     .date-row {
@@ -61,8 +67,8 @@
       align-items: center;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      padding: 10px 0;
-      margin-bottom: 18px;
+      padding: 9px 0;
+      margin-bottom: 16px;
     }
     .date-col .line1 { font-size: 13px; }
     .date-col .line2 { font-size: 12px; color: var(--muted); margin-top: 2px; }
@@ -79,7 +85,7 @@
     .current-card {
       border-radius: 18px;
       padding: 20px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       position: relative;
       overflow: hidden;
       transition: background 0.5s;
@@ -182,12 +188,12 @@
     .tag-forbidden { background: rgba(220,100,60,0.4); color: #ffcab0; }
     .tag-next { background: rgba(240,165,0,0.3); color: #ffd970; }
 
-    /* ── RAMADAN / EXTRA INFO ── */
+    /* ── EXTRA INFO ── */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 16px;
+      margin-top: 10px;
     }
     .info-card {
       background: var(--card);
@@ -198,10 +204,118 @@
     }
     .info-card.wide { grid-column: span 2; }
     .info-card .ilabel { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-    .info-card .ival { font-size: 22px; font-weight: 600; }
-    .info-card .ival.mono { font-size: 28px; font-weight: 300; letter-spacing: 2px; }
-    .info-card .ival.sm { font-size: 14px; }
+    .info-card .ival { font-size: 20px; font-weight: 600; }
+    .info-card .ival.mono { font-size: 26px; font-weight: 300; letter-spacing: 2px; }
+    .info-card .ival.sm { font-size: 13px; }
     .iftar-soon { color: var(--accent2); }
+
+    /* ── QIBLA ── */
+    .qibla-btn {
+      width: 100%;
+      margin-top: 20px;
+      background: linear-gradient(135deg, #1f6f5c, #114438);
+      border: 1px solid rgba(80,200,170,0.4);
+      color: #fff;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .qibla-btn:active { opacity: 0.8; }
+    .qibla-panel {
+      margin-top: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      display: none;
+    }
+    .qibla-panel.open { display: block; }
+    .qibla-status {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .compass-wrap {
+      width: 220px;
+      height: 220px;
+      margin: 0 auto 14px;
+      position: relative;
+    }
+    .compass-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 70%);
+      position: relative;
+    }
+    .compass-n, .compass-s, .compass-e, .compass-w {
+      position: absolute;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .compass-n { top: 8px; left: 50%; transform: translateX(-50%); color: var(--accent); }
+    .compass-s { bottom: 8px; left: 50%; transform: translateX(-50%); }
+    .compass-e { right: 8px; top: 50%; transform: translateY(-50%); }
+    .compass-w { left: 8px; top: 50%; transform: translateY(-50%); }
+    .phone-pointer {
+      position: absolute;
+      top: -2px; left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 14px solid var(--accent2);
+    }
+    .qibla-needle {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 4px;
+      height: 38%;
+      background: linear-gradient(to top, var(--green), #fff);
+      border-radius: 4px;
+      transform-origin: bottom center;
+      transform: translate(-50%, -100%) rotate(0deg);
+      transition: transform 0.15s linear;
+    }
+    .kaaba-emoji {
+      position: absolute;
+      top: -16px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+    }
+    .compass-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px; height: 8px;
+      background: #fff;
+      border-radius: 50%;
+    }
+    .qibla-readout {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 4px;
+    }
+    .qibla-readout div .qr-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .qibla-readout div .qr-val { font-size: 18px; font-weight: 600; margin-top: 2px; }
+    .qibla-static {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
 
     /* ── LOADING ── */
     .loading-screen {
@@ -258,12 +372,18 @@
 
   <!-- Top bar -->
   <div class="topbar">
-    <div class="clock" id="clockDisplay">০০:০০</div>
-    <div class="topbar-right" id="secDisplay">০০ সেকেন্ড</div>
+    <div>
+      <div class="app-title">নামায সময়</div>
+      <div class="app-sub">ঢাকা, বাংলাদেশ</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="clock-wrap">
+        <span class="clock" id="clockDisplay">--:--</span>
+        <span class="clock-ampm" id="clockAmPm">--</span>
+      </div>
+      <div class="topbar-right" id="secDisplay">-- সেকেন্ড</div>
+    </div>
   </div>
-
-  <div class="app-title">নামায সময়</div>
-  <div class="app-sub">ঢাকা, বাংলাদেশ — UTC+৬</div>
 
   <!-- Date row -->
   <div class="date-row">
@@ -280,7 +400,7 @@
     <br><button class="retry-btn" onclick="fetchPrayerTimes()">আবার চেষ্টা করুন</button>
   </div>
 
-  <!-- Current waqt -->
+  <!-- Current waqt: MOST IMPORTANT, shown first -->
   <div class="current-card between" id="currentCard">
     <div class="cw-label"><span class="cw-dot"></span>বর্তমানে চলছে</div>
     <div class="cw-name" id="cwName">লোড হচ্ছে…</div>
@@ -289,7 +409,7 @@
     <div class="progress-bar"><div class="progress-fill" id="cwProgress" style="width:0%"></div></div>
   </div>
 
-  <!-- Next prayer -->
+  <!-- Next prayer: second most important -->
   <div class="next-card">
     <div>
       <div class="next-label">পরবর্তী নামায</div>
@@ -299,14 +419,7 @@
     <div class="next-countdown" id="nextCountdown">—</div>
   </div>
 
-  <!-- All waqt -->
-  <div class="section-title">সম্পূর্ণ নামায সময়সূচী</div>
-  <div class="waqt-grid" id="waqtGrid">
-    <!-- built by JS -->
-  </div>
-
-  <!-- Extra info -->
-  <div class="section-title">অতিরিক্ত তথ্য</div>
+  <!-- Sahri / Iftar quick info -->
   <div class="info-grid">
     <div class="info-card">
       <div class="ilabel">সাহরি শেষ</div>
@@ -320,18 +433,46 @@
       <div class="ilabel">ইফতার পর্যন্ত বাকি</div>
       <div class="ival mono iftar-soon" id="iftarCountdown">—</div>
     </div>
-    <div class="info-card">
-      <div class="ilabel">কিবলা দিক</div>
-      <div class="ival">↖️</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:4px;">২৬৮° (পশ্চিম-উত্তর-পশ্চিম)</div>
+  </div>
+
+  <!-- All waqt -->
+  <div class="section-title">সম্পূর্ণ নামায সময়সূচী</div>
+  <div class="waqt-grid" id="waqtGrid">
+    <!-- built by JS -->
+  </div>
+
+  <!-- Qibla button near bottom -->
+  <button class="qibla-btn" id="qiblaBtn">🕋 লাইভ কিবলা দিক দেখুন</button>
+  <div class="qibla-panel" id="qiblaPanel">
+    <div class="compass-wrap">
+      <div class="compass-circle" id="compassCircle">
+        <div class="phone-pointer"></div>
+        <div class="compass-n">N</div>
+        <div class="compass-s">S</div>
+        <div class="compass-e">E</div>
+        <div class="compass-w">W</div>
+        <div class="qibla-needle" id="qiblaNeedle">
+          <div class="kaaba-emoji">🕋</div>
+        </div>
+        <div class="compass-center"></div>
+      </div>
     </div>
-    <div class="info-card">
-      <div class="ilabel">পদ্ধতি</div>
-      <div class="ival sm">ইসলামিক ফাউন্ডেশন বাংলাদেশ</div>
+    <div class="qibla-readout">
+      <div>
+        <div class="qr-label">আপনার মুখ</div>
+        <div class="qr-val" id="headingVal">—</div>
+      </div>
+      <div>
+        <div class="qr-label">কিবলা</div>
+        <div class="qr-val" id="qiblaBearingVal">—</div>
+      </div>
+    </div>
+    <div class="qibla-status" id="qiblaStatus">
+      ফোনটি সমতল রেখে ধরুন। সবুজ তীর/কাবা চিহ্নটি স্ক্রিনের ঠিক উপরের দিকে আসলে আপনি কিবলামুখী।
     </div>
   </div>
 
-  <div class="footer">ঢাকা • ২৩.৮১° উত্তর, ৯০.৪১° পূর্ব<br>তথ্যসূত্র: Aladhan API</div>
+  <div class="footer" id="footerInfo">ঢাকা • ২৩.৮১° উত্তর, ৯০.৪১° পূর্ব<br>তথ্যসূত্র: Aladhan API • পদ্ধতি: ইসলামিক ফাউন্ডেশন বাংলাদেশ</div>
 </div>
 </div>
 
@@ -346,12 +487,13 @@ const BN_DAYS   = ['রবিবার','সোমবার','মঙ্গলব
 const BN_MONTHS = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
 const HIJRI_MONTHS = ['মুহাররম','সফর','রবিউল আউয়াল','রবিউস সানি','জুমাদাল উলা','জুমাদাল উখরা','রজব','শাবান','রমজান','শাওয়াল','যিলক্বদ','যিলহজ'];
 
+// ── Coordinates (Dhaka) ─────────────────────────────────────────
+const LAT = 23.8103;
+const LON = 90.4125;
+
 // ── Waqt definitions (populated from API) ─────────────────────
-// start/end in minutes from midnight
 let WAQTS = [];   // set after API call
 let lastFetchDate = null;
-
-// ── State ──────────────────────────────────────────────────────
 let todayTimes = null;   // raw API data
 let tomorrowFajrMin = null;
 
@@ -362,11 +504,15 @@ function toMin(hhmm) {
   return h * 60 + m;
 }
 
-// ── Format minutes-from-midnight → "০৫:৩৭" ──────────────────
-function minToDisp(min) {
-  const h = Math.floor(((min % 1440) + 1440) % 1440 / 60);
-  const m = ((min % 1440) + 1440) % 1440 % 60;
-  return bnPad(h) + ':' + bnPad(m);
+// ── Format minutes-from-midnight → 12-hour "১০:৩৫ AM" ──────────
+function to12h(min) {
+  const norm = ((Math.round(min) % 1440) + 1440) % 1440;
+  let h = Math.floor(norm / 60);
+  const m = norm % 60;
+  const period = h < 12 ? 'AM' : 'PM';
+  let h12 = h % 12;
+  if (h12 === 0) h12 = 12;
+  return bnPad(h12) + ':' + bnPad(m) + ' ' + period;
 }
 
 // ── Duration in min → "X ঘণ্টা Y মিনিট" / "Y মিনিট" ─────────
@@ -453,14 +599,13 @@ async function fetchPrayerTimes() {
     const hijriText = bn(hijri.day) + ' ' + HIJRI_MONTHS[parseInt(hijri.month.number) - 1] + ' ' + bn(hijri.year);
     document.getElementById('hijriDateDisplay').textContent = hijriText;
 
-    // Extra info
-    document.getElementById('sahriVal').textContent  = bnPad(parseInt(todayTimes.Fajr.split(':')[0])) + ':' + bnPad(parseInt(todayTimes.Fajr.split(':')[1]));
-    document.getElementById('iftarVal').textContent  = bnPad(parseInt(todayTimes.Maghrib.split(':')[0])) + ':' + bnPad(parseInt(todayTimes.Maghrib.split(':')[1]));
+    // Extra info (12-hour)
+    document.getElementById('sahriVal').textContent = to12h(toMin(todayTimes.Fajr));
+    document.getElementById('iftarVal').textContent = to12h(toMin(todayTimes.Maghrib));
 
     lastFetchDate = dhakaStr;
 
     document.getElementById('loadingScreen').classList.add('hidden');
-    renderWaqtGrid();
     updateLiveTick();
 
   } catch (err) {
@@ -468,11 +613,6 @@ async function fetchPrayerTimes() {
     document.getElementById('loadingScreen').classList.add('hidden');
     document.getElementById('errorBanner').style.display = 'block';
   }
-}
-
-// ── Render static waqt grid ────────────────────────────────────
-function renderWaqtGrid() {
-  // built dynamically each tick for active highlighting
 }
 
 // ── Main tick — runs every second ────────────────────────────
@@ -486,10 +626,15 @@ function updateLiveTick() {
     return;
   }
 
-  // Clock
+  // Clock (12-hour)
   const dhStr = now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Dhaka', hour12: false });
   const [hh, mm, ss] = dhStr.split(':');
-  document.getElementById('clockDisplay').textContent = bnPad(+hh) + ':' + bnPad(+mm);
+  const h24 = +hh;
+  const period = h24 < 12 ? 'AM' : 'PM';
+  let h12 = h24 % 12;
+  if (h12 === 0) h12 = 12;
+  document.getElementById('clockDisplay').textContent = bnPad(h12) + ':' + bnPad(+mm);
+  document.getElementById('clockAmPm').textContent = period;
   document.getElementById('secDisplay').textContent = bnPad(+ss) + ' সেকেন্ড';
 
   // Gregorian date
@@ -506,10 +651,8 @@ function updateLiveTick() {
   let currentWaqt = null;
   let nextWaqt    = null;
 
-  // Normalize: tahajjud spans past midnight, treat 1440+ as same day
   for (const w of WAQTS) {
     let s = w.start, e = w.end;
-    // tahajjud can end at e.g. 1500 (next-day fajr + 1440)
     const normS = s % 1440;
     const normE = e % 1440;
 
@@ -517,15 +660,12 @@ function updateLiveTick() {
     if (normS < normE) {
       active = nowMin >= normS && nowMin < normE;
     } else {
-      // spans midnight
       active = nowMin >= normS || nowMin < normE;
     }
 
     if (active && !currentWaqt) currentWaqt = w;
   }
 
-  // "Between" periods — if no waqt is active right now
-  // (e.g., between Sunrise+15 and Zawal-5)
   // Find next prayer waqt
   const sortedByStart = [...WAQTS].sort((a, b) => (a.start % 1440) - (b.start % 1440));
   for (const w of sortedByStart) {
@@ -539,8 +679,8 @@ function updateLiveTick() {
   if (currentWaqt) {
     card.className = 'current-card ' + (currentWaqt.type === 'forbidden' ? 'forbidden' : 'prayer');
     document.getElementById('cwName').textContent = currentWaqt.bn;
-    const sDisp = minToDisp(currentWaqt.start);
-    const eDisp = minToDisp(currentWaqt.end % 1440);
+    const sDisp = to12h(currentWaqt.start);
+    const eDisp = to12h(currentWaqt.end);
     document.getElementById('cwTime').textContent = sDisp + ' — ' + eDisp;
 
     const s = currentWaqt.start % 1440;
@@ -564,7 +704,7 @@ function updateLiveTick() {
   // ── Next prayer card ───────────────────────────────────────
   if (nextWaqt) {
     document.getElementById('nextName').textContent = nextWaqt.bn;
-    document.getElementById('nextTime').textContent = minToDisp(nextWaqt.start % 1440);
+    document.getElementById('nextTime').textContent = to12h(nextWaqt.start);
     let diffMin = (nextWaqt.start % 1440) - nowMin;
     if (diffMin < 0) diffMin += 1440;
     // Format as HH:MM:SS countdown
@@ -579,7 +719,6 @@ function updateLiveTick() {
   const grid = document.getElementById('waqtGrid');
   grid.innerHTML = WAQTS.map(w => {
     const s = w.start % 1440;
-    const e = w.end   % 1440;
     const isActive = currentWaqt?.key === w.key;
     const isNext   = nextWaqt?.key === w.key && !isActive;
     const passed   = !isActive && !isNext && s < nowMin && w.key !== 'tahajjud';
@@ -604,8 +743,8 @@ function updateLiveTick() {
           </div>
         </div>
         <div class="waqt-right">
-          <div class="waqt-time-main">${minToDisp(s)}</div>
-          <div class="waqt-time-end">পর্যন্ত ${minToDisp(e)}</div>
+          <div class="waqt-time-main">${to12h(w.start)}</div>
+          <div class="waqt-time-end">পর্যন্ত ${to12h(w.end)}</div>
         </div>
       </div>`;
   }).join('');
@@ -624,6 +763,111 @@ function updateLiveTick() {
     iftarEl.className = 'ival mono' + (iftarDiff < 60 ? ' iftar-soon' : '');
   }
 }
+
+// ───────────────────────────────────────────────────────────────
+// QIBLA COMPASS
+// ───────────────────────────────────────────────────────────────
+
+// Great-circle bearing from (LAT, LON) to the Kaaba
+function computeQiblaBearing(lat, lon) {
+  const toRad = d => d * Math.PI / 180;
+  const kLat = toRad(21.4225);
+  const kLon = toRad(39.8262);
+  const phi1 = toRad(lat);
+  const lambda1 = toRad(lon);
+  const dLambda = kLon - lambda1;
+
+  const y = Math.sin(dLambda) * Math.cos(kLat);
+  const x = Math.cos(phi1) * Math.sin(kLat) - Math.sin(phi1) * Math.cos(kLat) * Math.cos(dLambda);
+  let theta = Math.atan2(y, x) * 180 / Math.PI;
+  return (theta + 360) % 360;
+}
+
+const QIBLA_BEARING = computeQiblaBearing(LAT, LON);
+
+function compassNameBn(deg) {
+  const dirs = ['উত্তর','উত্তর-পূর্ব','পূর্ব','দক্ষিণ-পূর্ব','দক্ষিণ','দক্ষিণ-পশ্চিম','পশ্চিম','উত্তর-পশ্চিম'];
+  const idx = Math.round(deg / 45) % 8;
+  return dirs[idx];
+}
+
+let compassActive = false;
+
+function handleOrientation(e) {
+  let heading;
+  if (typeof e.webkitCompassHeading === 'number' && !isNaN(e.webkitCompassHeading)) {
+    // iOS: already a true compass heading (0 = North)
+    heading = e.webkitCompassHeading;
+  } else if (e.alpha !== null) {
+    // Fallback for other browsers (approximate)
+    heading = 360 - e.alpha;
+  } else {
+    return;
+  }
+
+  const needle = document.getElementById('qiblaNeedle');
+  const rotation = QIBLA_BEARING - heading;
+  needle.style.transform = `translate(-50%, -100%) rotate(${rotation}deg)`;
+
+  document.getElementById('headingVal').textContent = bn(Math.round(heading)) + '°';
+
+  const diff = Math.abs(((rotation % 360) + 360) % 360);
+  const facingQibla = diff < 5 || diff > 355;
+  const status = document.getElementById('qiblaStatus');
+  if (facingQibla) {
+    status.textContent = '✅ আপনি এখন কিবলার দিকে মুখ করে আছেন!';
+    status.style.color = 'var(--green)';
+  } else {
+    status.textContent = 'ফোনটি সমতল রেখে ধরুন এবং সবুজ তীর/কাবা চিহ্নটি স্ক্রিনের ঠিক উপরের দিকে আসা পর্যন্ত ঘুরুন।';
+    status.style.color = 'var(--muted)';
+  }
+}
+
+function showStaticQibla(message) {
+  document.getElementById('qiblaStatus').style.color = 'var(--muted)';
+  document.getElementById('qiblaStatus').innerHTML =
+    (message ? message + '<br><br>' : '') +
+    `স্থির তথ্য: ঢাকা থেকে কিবলার দিক <strong>${bn(QIBLA_BEARING.toFixed(1))}°</strong> ` +
+    `(${compassNameBn(QIBLA_BEARING)})`;
+  document.getElementById('headingVal').textContent = '—';
+}
+
+document.getElementById('qiblaBearingVal').textContent = bn(Math.round(QIBLA_BEARING)) + '°';
+
+document.getElementById('qiblaBtn').addEventListener('click', async () => {
+  const panel = document.getElementById('qiblaPanel');
+  const isOpen = panel.classList.contains('open');
+
+  if (isOpen) {
+    panel.classList.remove('open');
+    return;
+  }
+
+  panel.classList.add('open');
+
+  if (compassActive) return;
+
+  // iOS 13+ requires explicit permission, triggered by a user gesture
+  if (typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof DeviceOrientationEvent.requestPermission === 'function') {
+    try {
+      const permission = await DeviceOrientationEvent.requestPermission();
+      if (permission === 'granted') {
+        window.addEventListener('deviceorientation', handleOrientation, true);
+        compassActive = true;
+      } else {
+        showStaticQibla('⚠️ কম্পাস ব্যবহারের অনুমতি দেওয়া হয়নি।');
+      }
+    } catch (err) {
+      showStaticQibla('⚠️ এই ব্রাউজারে কম্পাস সমর্থিত নয়।');
+    }
+  } else if (typeof DeviceOrientationEvent !== 'undefined') {
+    window.addEventListener('deviceorientation', handleOrientation, true);
+    compassActive = true;
+  } else {
+    showStaticQibla('⚠️ এই ডিভাইসে কম্পাস সমর্থিত নয়।');
+  }
+});
 
 // ── Boot ───────────────────────────────────────────────────────
 fetchPrayerTimes().then(() => {
